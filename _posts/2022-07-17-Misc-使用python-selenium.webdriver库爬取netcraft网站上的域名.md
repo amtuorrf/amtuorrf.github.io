@@ -7,8 +7,9 @@ tags: [信息收集]
 ### 剧情
 1. 小强最近发现一个可以搜索子域名的网站, 他试着搜索了一下`edu.cn`, 结果得到了很多 三级域名、四级域名。
 
-![[Pasted image 20220717144616.png]]
-![[Pasted image 20220717144729.png]]
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717144616.png){: w="700"}
+
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717144729.png){: w="700"}
 
 2. 小强现在想使用并不熟练的python requests库来爬取网站上的子域名信息。过程中他发现, requests 请求的并不是他想要的内容，网站似乎做了防爬.
 
@@ -23,14 +24,16 @@ print(t1.text)
 # python3 getsubdomain.py > 1.html
 ```
 
-![[Pasted image 20220717145708.png]]
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717145708.png){: w="700"}
 
 3. 小强在网上查询了许多资料，且学会了一下东西，接下来跟着小强一步一步操作，帮助小强完成任务.
 
 
 ## 配置
 操作系统环境 : windows 10
+
 浏览器 : Google Chrome
+
 python3.9+
 
 
@@ -47,7 +50,7 @@ PS C:\Users\GameG\test> pip.exe install selenium
 2. 配置浏览器相关东西.
 
 查看Google Chrome版本
-![[Pasted image 20220717151033.png]]
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717151033.png){: w="700"}
 
 Version： 103.0.5060.114
 
@@ -57,22 +60,22 @@ Version： 103.0.5060.114
 
 我选了这这个.
 
-![[Pasted image 20220717151336.png]]
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717151336.png){: w="700"}
 
 下载 chromedriver_win32.zip 文件.
 
-![[Pasted image 20220717151403.png]]
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717151403.png){: w="700"}
 
 将文件解压，把解压后的文件放到 python 的安装目录.
 
 C:\Users\用户名\AppData\Local\Programs\Python\Python310\
 
-![[Pasted image 20220717151608.png]]
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717151608.png){: w="700"}
 
 然后添加到环境变量。
 
 
-![Desktop View](/assets/img/wz-images/Pasted image 20220717151910.png){: w="700"}
+![](/assets/img/misc-images/2022-07-17/Pasted image 20220717151910.png){: w="700"}
 3. 测试脚本
 
 不出意外的话应该可以了
