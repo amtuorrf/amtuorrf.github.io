@@ -24,8 +24,39 @@
     <div class="site-title mt-3">
       <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
     </div>
-    <div class="site-subtitle font-italic">{{ site.tagline }}</div>
+    <div id ="copywriting" class="site-subtitle font-italic"></div>
+    <script text="javascript">
+			fetch('/assets/index_about.json',{headers:({
+				'copywriting.jsion': 'application/x-www-form-urlencoded'
+			})})
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(myJson) {
+				var max = myJson.length;
+				var copywritingId = Math.ceil(Math.random()*max)-1;
+				// console.log(copywritingId);
 
+				console.log(`%c
+  _    _.--.____.--._
+ ( )=.-":;:;:;;':;:;:;"-._
+  \\\\:;:;:;:;:;;:;::;:;:;:\\
+   \\\\:;:;:;:;:;;:;:;:;:;:;\\
+    \\\\:;::;:;:;:;:;::;:;:;:\\
+     \\\\:;:;:;:;:;;:;::;:;:;:\\
+      \\\\:;::;:;:;:;:;::;:;:;:\\
+       \\\\;;:;:_:--:_:_:--:_;:;\\
+        \\\\_.-"             "-._\\
+         \\\\
+          \\\\
+           \\\\
+            \\\\ 
+             \\\\
+              \\\\\ `,'color: #03A9F4; font-weight: bold');
+				console.log(`%c `+myJson[copywritingId], `color: #03A9F4; font-weight: bold`);
+				document.getElementById('copywriting').innerHTML = myJson[copywritingId];
+			});
+			</script>
   </div><!-- .profile-wrapper -->
 
   <ul class="w-100">
